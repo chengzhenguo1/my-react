@@ -6,9 +6,32 @@ const element = (
     </div>
 )
 
-function createElement(type, props, ...children) {
+const myReact = {
+    createElement
+}
+
+myReact.createElement = (type, config, ...children) => {
+    let ref = null
+    let key = null
+    let props = {}
+    if (config) {
+        for (const name in config) {
+            if (Object.hasOwnProperty.call(config, name)) {
+                if (name === 'ref') {
+                    ref = config[name]
+                } else if (name === 'key') {
+                    key = config[name]
+                } else {
+                    props[name] = config[name]
+                }
+            }
+        }
+    }
+
     return {
         type,
+        ref,
+        key,
         props: {
             ...props,
             children: children.map((child) => {
